@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>로타랙트 — 한림대학교 중앙 봉사동아리</title>
+  <meta name="description" content="로타랙트는 한림대학교 중앙 봉사동아리입니다. 안심귀가(지역아동 대상), 야간순찰, MT, 로타링크, 개총/종총 등의 활동을 진행합니다." />
+
+  <style>
+    :root{
+      --bg:#0b1020;--surface:rgba(255,255,255,.06);--border:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.92);--muted:rgba(255,255,255,.72);--faint:rgba(255,255,255,.55);
+      --brand-1:#7c3aed;--brand-2:#22c55e;--brand-3:#06b6d4;
+      --shadow:0 18px 60px rgba(0,0,0,.45);--shadow-soft:0 10px 30px rgba(0,0,0,.25);
+      --radius-lg:18px;--container:1120px;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1);
+      --font:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+    }
+    [data-theme="light"]{
+      --bg:#f7f8fb;--surface:rgba(12,18,40,.05);--border:rgba(12,18,40,.12);
+      --text:rgba(12,18,40,.92);--muted:rgba(12,18,40,.72);--faint:rgba(12,18,40,.55);
+      --shadow:0 18px 60px rgba(12,18,40,.16);--shadow-soft:0 10px 30px rgba(12,18,40,.12);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;font-family:var(--font);color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% 5%, rgba(124,58,237,.28), transparent 60%),
+        radial-gradient(1000px 700px at 80% 10%, rgba(6,182,212,.25), transparent 55%),
+        radial-gradient(900px 650px at 50% 95%, rgba(34,197,94,.18), transparent 60%),
+        var(--bg);
+      min-height:100vh;overflow-x:hidden;word-break:keep-all;
+    }
+    body:before{
+      content:"";position:fixed;inset:0;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;opacity:.35;z-index:0;
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,textarea{font:inherit;color:inherit}
+    .container{width:min(var(--container), calc(100% - 40px));margin-inline:auto;position:relative;z-index:1}
+    .pill{
+      display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--border);
+      border-radius:999px;background:linear-gradient(180deg, var(--surface), transparent);
+      box-shadow:var(--shadow-soft);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      color:var(--muted);font-size:14px;letter-spacing:.2px;
+    }
+    .dot{width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,rgba(255,255,255,.15));box-shadow:0 0 0 4px rgba(124,58,237,.18)}
+    .grid{display:grid;gap:16px}
+    .card{
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, var(--surface), transparent);
+      border-radius:18px;
+      box-shadow:var(--shadow-soft);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    }
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border-radius:14px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      cursor:pointer;transition:transform .18s var(--ease), box-shadow .18s var(--ease), border-color .18s var(--ease);
+      box-shadow:0 12px 26px rgba(0,0,0,.25);user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.22)}
+    [data-theme="light"] .btn:hover{border-color:rgba(12,18,40,.22)}
+    .btn-primary{
+      border-color:rgba(124,58,237,.55);
+      background:linear-gradient(180deg, rgba(124,58,237,.95), rgba(124,58,237,.65));
+      box-shadow:0 18px 44px rgba(124,58,237,.28);
+    }
+    .btn-ghost{background:transparent;box-shadow:none}
+    .icon{width:18px;height:18px;display:inline-block}
+    .section{padding:72px 0}
+    .section h2{margin:0 0 10px;font-size:clamp(26px, 2.6vw, 38px);letter-spacing:-0.02em}
+    .section p.lead{margin:0;color:var(--muted);max-width:62ch;line-height:1.6;font-size:16px}
+    .kicker{margin:0 0 14px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:12px;color:var(--faint)}
+
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      background:linear-gradient(180deg, rgba(0,0,0,.32), rgba(0,0,0,0));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    [data-theme="light"] header{background:linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.2));border-bottom:1px solid rgba(12,18,40,.08)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-0.03em}
+    .logo{
+      width:34px;height:34px;border-radius:12px;
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.18)),
+               linear-gradient(135deg, var(--brand-1), var(--brand-3));
+      box-shadow:0 16px 40px rgba(124,58,237,.26);border:1px solid rgba(255,255,255,.25);
+    }
+    [data-theme="light"] .logo{border-color:rgba(12,18,40,.15)}
+    nav ul{display:flex;gap:18px;align-items:center;list-style:none;padding:0;margin:0}
+    nav a{
+      color:var(--muted);font-weight:600;font-size:14px;padding:10px 10px;border-radius:12px;
+      transition:background .18s var(--ease), color .18s var(--ease);
+    }
+    nav a:hover{background:var(--surface);color:var(--text)}
+    nav a.active{background:linear-gradient(180deg, rgba(124,58,237,.22), rgba(124,58,237,.08));color:var(--text);border:1px solid rgba(124,58,237,.28)}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .toggle,.hamburger{
+      width:42px;height:42px;border-radius:14px;border:1px solid var(--border);
+      background:linear-gradient(180deg, var(--surface), transparent);
+      display:grid;place-items:center;cursor:pointer;transition:transform .18s var(--ease);
+    }
+    .toggle:hover,.hamburger:hover{transform:translateY(-1px)}
+    .hamburger{display:none}
+
+    /* ✅ 모바일 드로어: 기본은 완전 숨김 */
+    .mobile-drawer{display:none;padding:0 0 14px}
+    .mobile-drawer .card{padding:12px;border-radius:16px}
+    .mobile-drawer a{display:block;padding:12px;border-radius:12px;color:var(--muted);font-weight:650}
+    .mobile-drawer a:hover{background:var(--surface);color:var(--text)}
+    .mobile-drawer[hidden]{display:none !important;}
+    .mobile-drawer.open{display:block;}
+
+    .hero{padding:70px 0 34px}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:28px}
+    .hero h1{margin:14px 0 10px;font-size:clamp(38px, 4.6vw, 64px);letter-spacing:-0.05em;line-height:1.03}
+    .hero p{margin:0 0 20px;color:var(--muted);line-height:1.7;font-size:16px;max-width:62ch}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+    .stat{padding:14px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(180deg, var(--surface), transparent);box-shadow:var(--shadow-soft)}
+    .stat strong{display:block;font-size:18px;letter-spacing:-0.02em}
+    .stat span{color:var(--faint);font-size:13px}
+
+    .hero-art{position:relative;min-height:420px}
+    .orb{position:absolute;border-radius:999px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.18);
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.12)),
+               linear-gradient(135deg, rgba(124,58,237,.95), rgba(6,182,212,.6));
+    }
+    .orb.a{width:260px;height:260px;top:30px;right:10px}
+    .orb.b{width:210px;height:210px;bottom:40px;left:0;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.12)),
+               linear-gradient(135deg, rgba(34,197,94,.95), rgba(6,182,212,.55))}
+    .orb.c{width:150px;height:150px;bottom:0;right:40px;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.12)),
+               linear-gradient(135deg, rgba(245,158,11,.9), rgba(124,58,237,.55))}
+    .hero-panel{
+      position:absolute;inset:70px 30px;border-radius:26px;border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow);overflow:hidden;
+    }
+    .hero-panel:before{
+      content:"";position:absolute;inset:-2px;
+      background:radial-gradient(700px 300px at 30% 10%, rgba(124,58,237,.35), transparent 60%),
+               radial-gradient(700px 300px at 70% 30%, rgba(6,182,212,.3), transparent 55%),
+               radial-gradient(700px 300px at 40% 90%, rgba(34,197,94,.22), transparent 60%);
+      opacity:.9;pointer-events:none;
+    }
+    .hero-panel-inner{
+      position:absolute;inset:18px;border-radius:20px;border:1px dashed rgba(255,255,255,.22);
+      display:flex;flex-direction:column;justify-content:space-between;padding:18px;z-index:1;
+    }
+    .mini-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .chip{
+      display:inline-flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.18);
+    }
+    [data-theme="light"] .chip{background:rgba(255,255,255,.55)}
+    .chip .spark{
+      width:34px;height:34px;border-radius:14px;background:linear-gradient(135deg, rgba(124,58,237,.95), rgba(6,182,212,.65));
+      display:grid;place-items:center;border:1px solid rgba(255,255,255,.22);box-shadow:0 12px 30px rgba(124,58,237,.22);
+    }
+    .chip b{display:block;font-size:13px}
+    .chip small{color:var(--faint);display:block;margin-top:2px;font-size:12px}
+    .progress{height:10px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.16);overflow:hidden}
+    [data-theme="light"] .progress{background:rgba(255,255,255,.6)}
+    .progress>i{display:block;height:100%;width:72%;border-radius:999px;background:linear-gradient(90deg, rgba(124,58,237,.95), rgba(6,182,212,.8), rgba(34,197,94,.85))}
+
+    .logos{padding:18px 0 0}
+    .logo-strip{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;opacity:.9}
+    .logo-badge{
+      padding:10px 12px;border-radius:14px;border:1px solid var(--border);
+      background:linear-gradient(180deg, var(--surface), transparent);
+      color:var(--faint);font-weight:700;letter-spacing:.02em;font-size:13px;
+      display:flex;gap:10px;align-items:center;min-width:145px;justify-content:center;
+    }
+    .logo-badge .mark{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg, var(--brand-1), var(--brand-3));box-shadow:0 0 0 4px rgba(6,182,212,.12)}
+
+    .features-grid{grid-template-columns:repeat(3,1fr);margin-top:22px}
+    .feature{padding:18px;transition:transform .25s var(--ease-out), border-color .25s var(--ease-out)}
+    .feature:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.22)}
+    [data-theme="light"] .feature:hover{border-color:rgba(12,18,40,.18)}
+    .feature .ico{
+      width:44px;height:44px;border-radius:16px;display:grid;place-items:center;
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.14)),
+               linear-gradient(135deg, rgba(124,58,237,.95), rgba(6,182,212,.65));
+      border:1px solid rgba(255,255,255,.22);box-shadow:0 14px 34px rgba(124,58,237,.22);margin-bottom:12px;
+    }
+    .feature h3{margin:0 0 8px;font-size:18px;letter-spacing:-0.02em}
+    .feature p{margin:0;color:var(--muted);line-height:1.65;font-size:14px}
+
+    .portfolio-grid{grid-template-columns:1.4fr .9fr;gap:16px;margin-top:22px}
+    .shot{padding:16px;overflow:hidden;position:relative}
+    .shot .meta{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+    .shot .meta h3{margin:0;font-size:18px;letter-spacing:-.02em}
+    .shot .meta p{margin:4px 0 0;color:var(--muted);font-size:14px;line-height:1.55}
+    .mock{
+      border-radius:18px;border:1px solid rgba(255,255,255,.16);
+      background:linear-gradient(180deg, rgba(255,255,255,.08), transparent),
+               radial-gradient(900px 300px at 15% 0%, rgba(124,58,237,.25), transparent 60%),
+               radial-gradient(800px 280px at 85% 20%, rgba(6,182,212,.22), transparent 55%);
+      overflow:hidden;min-height:260px;position:relative;
+    }
+    .mock .topbar{height:40px;border-bottom:1px solid rgba(255,255,255,.14);display:flex;align-items:center;gap:8px;padding:0 14px}
+    .dot3{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.22)}
+    .mock .content{padding:14px;display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+    .pane{border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.14);min-height:90px;padding:12px}
+    [data-theme="light"] .pane{background:rgba(255,255,255,.55)}
+    .pane b{font-size:13px;display:block}
+    .pane small{color:var(--faint);display:block;margin-top:4px}
+    .bars{display:grid;gap:8px;margin-top:10px}
+    .bar{height:10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.12);overflow:hidden}
+    [data-theme="light"] .bar{background:rgba(255,255,255,.6)}
+    .bar i{display:block;height:100%;background:linear-gradient(90deg, rgba(124,58,237,.9), rgba(6,182,212,.7));border-radius:999px;width:var(--w,60%)}
+    .mini-cards{display:grid;gap:12px}
+    .mini{padding:14px}
+    .mini h4{margin:0 0 6px;font-size:15px}
+    .mini p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+    .tagrow{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+    .tag{font-size:12px;color:var(--faint);border:1px solid var(--border);padding:7px 10px;border-radius:999px;background:rgba(0,0,0,.1)}
+    [data-theme="light"] .tag{background:rgba(255,255,255,.55)}
+
+    .test-grid{grid-template-columns:repeat(3,1fr);margin-top:22px}
+    .quote{padding:18px}
+    .quote p{margin:0;color:var(--muted);line-height:1.7;font-size:14px}
+    .quote .who{display:flex;align-items:center;gap:12px;margin-top:14px}
+    .avatar{width:40px;height:40px;border-radius:14px;border:1px solid rgba(255,255,255,.22);
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.12)),
+               linear-gradient(135deg, rgba(245,158,11,.85), rgba(124,58,237,.65));
+      box-shadow:0 12px 30px rgba(0,0,0,.22);
+    }
+    .who b{display:block;font-size:14px}
+    .who small{display:block;margin-top:2px;color:var(--faint);font-size:12px}
+
+    .faq-grid{grid-template-columns:1fr 1fr;gap:16px;margin-top:22px;align-items:start}
+    .faq{padding:10px}
+    details{border:1px solid var(--border);border-radius:16px;background:linear-gradient(180deg, var(--surface), transparent);padding:12px 14px;box-shadow:var(--shadow-soft)}
+    details + details{margin-top:10px}
+    details[open]{border-color:rgba(124,58,237,.28)}
+    summary{cursor:pointer;list-style:none;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0}
+    summary::-webkit-details-marker{display:none}
+    .chev{width:34px;height:34px;border-radius:14px;display:grid;place-items:center;border:1px solid var(--border);background:rgba(0,0,0,.12);transition:transform .18s var(--ease)}
+    [data-theme="light"] .chev{background:rgba(255,255,255,.6)}
+    details[open] .chev{transform:rotate(180deg)}
+    details p{margin:8px 0 0;color:var(--muted);line-height:1.7;font-size:14px}
+
+    .contact{padding:18px}
+    .field{display:grid;gap:8px;margin-top:12px}
+    label{color:var(--faint);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+    input,textarea{
+      width:100%;padding:12px;border-radius:14px;border:1px solid var(--border);background:rgba(0,0,0,.12);
+      outline:none;transition:border-color .18s var(--ease), box-shadow .18s var(--ease);
+    }
+    [data-theme="light"] input,[data-theme="light"] textarea{background:rgba(255,255,255,.7)}
+    input:focus,textarea:focus{border-color:rgba(124,58,237,.42);box-shadow:0 0 0 4px rgba(124,58,237,.16)}
+    textarea{min-height:110px;resize:vertical}
+    .helper{color:var(--faint);font-size:12px;margin-top:6px;line-height:1.5}
+    .error{color:rgba(239,68,68,.95);font-size:12px;margin-top:6px;display:none}
+    .success{
+      display:none;margin-top:12px;padding:12px;border-radius:14px;border:1px solid rgba(34,197,94,.28);
+      background:rgba(34,197,94,.12);font-size:14px
+    }
+
+    .toast{
+      position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(10px);
+      padding:10px 12px;border-radius:14px;border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.25));
+      color:rgba(255,255,255,.92);box-shadow:var(--shadow-soft);
+      opacity:0;pointer-events:none;transition:opacity .2s var(--ease), transform .2s var(--ease);
+      z-index:9999;font-size:13px;
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    }
+    [data-theme="light"] .toast{
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+      color:rgba(12,18,40,.92);
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    footer{padding:26px 0 42px;border-top:1px solid rgba(255,255,255,.08);color:var(--faint)}
+    [data-theme="light"] footer{border-top-color:rgba(12,18,40,.08)}
+    .footer-row{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    .footer-links{display:flex;gap:12px;flex-wrap:wrap}
+    .footer-links a{padding:8px 10px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg, var(--surface), transparent);color:var(--faint);font-weight:650;font-size:13px}
+    .footer-links a:hover{color:var(--text)}
+
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s var(--ease-out), transform .6s var(--ease-out)}
+    .reveal.is-visible{opacity:1;transform:translateY(0)}
+
+    @media (max-width:980px){
+      .hero-grid{grid-template-columns:1fr}
+      .hero-art{min-height:380px}
+      .portfolio-grid{grid-template-columns:1fr}
+      .features-grid,.test-grid{grid-template-columns:1fr}
+      .faq-grid{grid-template-columns:1fr}
+      nav ul{display:none}
+      .hamburger{display:grid}
+      .logo-strip{justify-content:flex-start}
+      .logo-badge{min-width:auto}
+      .hero-stats{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="container">
+    <div class="nav">
+      <a class="brand" href="#top" aria-label="로타랙트 홈">
+        <span class="logo" aria-hidden="true"></span>
+        <span>로타랙트</span>
+      </a>
+
+      <nav aria-label="주요 메뉴">
+        <ul id="desktopNav">
+          <li><a href="#about">소개</a></li>
+          <li><a href="#activities">주요활동</a></li>
+          <li><a href="#schedule">연간일정</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">지원/문의</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="toggle" id="themeToggle" aria-label="테마 전환" title="테마 전환">
+          <svg class="icon" id="themeIcon" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M12 18a6 6 0 1 1 0-12a6 6 0 0 1 0 12Zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 18a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM3 11a1 1 0 0 1 1-1h1a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Zm18 0a1 1 0 0 1 1-1h1a1 1 0 1 1 0 2h-1a1 1 0 0 1-1-1ZM5.3 5.3a1 1 0 0 1 1.4 0l.7.7a1 1 0 1 1-1.4 1.4l-.7-.7a1 1 0 0 1 0-1.4Zm12.6 12.6a1 1 0 0 1 1.4 0l.7.7a1 1 0 1 1-1.4 1.4l-.7-.7a1 1 0 0 1 0-1.4ZM18.7 5.3a1 1 0 0 1 0 1.4l-.7.7a1 1 0 1 1-1.4-1.4l.7-.7a1 1 0 0 1 1.4 0ZM7.4 17.6a1 1 0 0 1 0 1.4l-.7.7a1 1 0 1 1-1.4-1.4l.7-.7a1 1 0 0 1 1.4 0Z"/>
+          </svg>
+        </button>
+
+        <button class="hamburger" id="hamburger" aria-label="메뉴 열기" title="메뉴">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M4 6h16a1 1 0 1 1 0 2H4a1 1 0 0 1 0-2Zm0 5h16a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Zm0 5h16a1 1 0 1 1 0 2H4a1 1 0 0 1 0-2Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-drawer" id="mobileDrawer" hidden>
+      <div class="card">
+        <a href="#about">소개</a>
+        <a href="#activities">주요활동</a>
+        <a href="#schedule">연간일정</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">지원/문의</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="reveal">
+          <span class="pill"><span class="dot"></span> 한림대학교 중앙 봉사동아리</span>
+          <h1>로타랙트,<br/>함께 걷고 함께 지키는 봉사.</h1>
+          <p>
+            로타랙트는 지역과 캠퍼스를 위해 꾸준히 움직이는 한림대학교 중앙 봉사동아리입니다.
+            아이들을 위한 <b>안심귀가</b>, 캠퍼스와 지역 안전을 위한 <b>야간순찰</b>,
+            그리고 구성원 간 결속을 다지는 <b>MT</b>와 정기 행사까지—<br/>
+            “지속 가능한 봉사”를 목표로 활동합니다.
+          </p>
+
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#activities">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Zm1 10.6l-4.2 2.5A1 1 0 0 1 7 14.2V9.8a1 1 0 0 1 1.8-.8l4.2 2.5a1 1 0 0 1 0 1.6Z"/></svg>
+              주요활동 보기
+            </a>
+            <a class="btn btn-ghost" href="#contact">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm2 0l8 6l8-6H4Zm16 12V8l-8 6l-8-6v10h16Z"/></svg>
+              지원/문의
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat"><strong>안심귀가</strong><span>아이와 손잡고 동행</span></div>
+            <div class="stat"><strong>야간순찰</strong><span>조끼 착용 · 취약 지역</span></div>
+            <div class="stat"><strong>정기행사</strong><span>개총 · 종총 · 로타링크</span></div>
+          </div>
+        </div>
+
+        <div class="hero-art reveal" aria-hidden="true">
+          <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+          <div class="hero-panel">
+            <div class="hero-panel-inner">
+              <div class="mini-row">
+                <div class="chip">
+                  <div class="spark">
+                    <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7-4.4-9.3-9.1C.7 8.4 3 5 6.6 5c1.9 0 3.2 1 3.9 2c.7-1 2-2 3.9-2C18 5 20.3 8.4 21.3 11.9C19 16.6 12 21 12 21Z"/></svg>
+                  </div>
+                  <div><b>지역과 함께</b><small>지속 가능한 봉사</small></div>
+                </div>
+                <div class="chip">
+                  <div class="spark" style="background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(6,182,212,.65))">
+                    <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l8 4v6c0 5-3.4 9.4-8 10c-4.6-.6-8-5-8-10V6l8-4Zm0 7a1 1 0 0 0-1 1v3.6l-1.7 1.7a1 1 0 1 0 1.4 1.4l2-2A1 1 0 0 0 13 14v-4a1 1 0 0 0-1-1Z"/></svg>
+                  </div>
+                  <div><b>안전을 지키는 발걸음</b><small>야간 활동</small></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="chip" style="width:100%; justify-content:space-between;">
+                  <div><b>활동 준비도</b><small>팀워크 &amp; 운영</small></div>
+                  <div style="min-width: 120px;"><div class="progress"><i></i></div></div>
+                </div>
+
+                <div style="display:grid; gap:10px; margin-top:10px;">
+                  <div class="chip" style="width:100%; justify-content:space-between;">
+                    <div><b>커뮤니티</b><small>로타링크로 연결</small></div>
+                    <span class="pill" style="padding:7px 10px; box-shadow:none;">✔️ 함께</span>
+                  </div>
+                  <div class="chip" style="width:100%; justify-content:space-between;">
+                    <div><b>성장</b><small>MT · 정기총회</small></div>
+                    <span class="pill" style="padding:7px 10px; box-shadow:none;">✔️ 지속</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logos reveal">
+        <div class="logo-strip" aria-label="키워드">
+          <div class="logo-badge"><span class="mark"></span> 봉사</div>
+          <div class="logo-badge"><span class="mark"></span> 안전</div>
+          <div class="logo-badge"><span class="mark"></span> 연대</div>
+          <div class="logo-badge"><span class="mark"></span> 성장</div>
+          <div class="logo-badge"><span class="mark"></span> 캠퍼스</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <p class="kicker reveal">소개</p>
+      <h2 class="reveal">로타랙트는 어떤 동아리인가요?</h2>
+      <p class="lead reveal">
+        로타랙트는 한림대학교 중앙 봉사동아리로, 지역사회와 캠퍼스의 안전과 돌봄을 위해 활동합니다.
+        함께 움직이며 서로 배우고, 꾸준히 이어지는 봉사를 지향합니다.
+      </p>
+
+      <div class="grid features-grid">
+        <article class="card feature reveal">
+          <div class="ico"><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7-4.4-9.3-9.1C.7 8.4 3 5 6.6 5c1.9 0 3.2 1 3.9 2c.7-1 2-2 3.9-2C18 5 20.3 8.4 21.3 11.9C19 16.6 12 21 12 21Z"/></svg></div>
+          <h3>안심귀가</h3>
+          <p>아이와 손잡고 안전하게 집까지 데려다주는 동행 활동입니다.</p>
+        </article>
+        <article class="card feature reveal">
+          <div class="ico" style="background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.14)),linear-gradient(135deg, rgba(34,197,94,.95), rgba(6,182,212,.65));">
+            <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l8 4v6c0 5-3.4 9.4-8 10c-4.6-.6-8-5-8-10V6l8-4Z"/></svg>
+          </div>
+          <h3>야간순찰</h3>
+          <p>조끼를 착용하고 취약 지역을 중심으로 순찰하며 안전을 살핍니다.</p>
+        </article>
+        <article class="card feature reveal">
+          <div class="ico" style="background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.14)),linear-gradient(135deg, rgba(245,158,11,.9), rgba(124,58,237,.65));">
+            <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M7 7h10v10H7V7Zm-2 3H3V5a2 2 0 0 1 2-2h5v2H5v5Zm16 0h-2V5h-5V3h5a2 2 0 0 1 2 2v5Zm-16 6H3v5a2 2 0 0 0 2 2h5v-2H5v-5Zm16 0h-2v5h-5v2h5a2 2 0 0 0 2-2v-5Z"/></svg>
+          </div>
+          <h3>함께 성장</h3>
+          <p>MT, 로타링크, 개총·종총 등으로 결속을 다지고 운영을 정리합니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="activities">
+    <div class="container">
+      <p class="kicker reveal">주요활동</p>
+      <h2 class="reveal">로타랙트의 대표 활동</h2>
+      <p class="lead reveal">활동 목적과 분위기를 한눈에 볼 수 있도록 정리했어요.</p>
+
+      <div class="grid portfolio-grid">
+        <article class="card shot reveal">
+          <div class="meta">
+            <div>
+              <h3>안심귀가 · 야간순찰</h3>
+              <p>“누군가의 밤이 조금 더 안전해지도록” 현장에서 함께 움직입니다.</p>
+            </div>
+            <span class="pill" style="box-shadow:none;">핵심 봉사</span>
+          </div>
+
+          <div class="mock" role="img" aria-label="활동 목업">
+            <div class="topbar">
+              <span class="dot3"></span><span class="dot3"></span><span class="dot3"></span>
+              <span style="margin-left:10px; color:var(--faint); font-size:12px; font-weight:700;">/activities</span>
+            </div>
+            <div class="content">
+              <div class="pane">
+                <b>안심귀가</b>
+                <small>아이와 손잡고 집까지 동행</small>
+                <div class="bars">
+                  <div class="bar" style="--w:82%"><i></i></div>
+                  <div class="bar" style="--w:66%"><i></i></div>
+                  <div class="bar" style="--w:74%"><i></i></div>
+                </div>
+              </div>
+              <div class="pane">
+                <b>야간순찰</b>
+                <small>조끼 착용 · 취약 지역 순찰</small>
+                <div class="bars">
+                  <div class="bar" style="--w:61%"><i></i></div>
+                  <div class="bar" style="--w:77%"><i></i></div>
+                  <div class="bar" style="--w:69%"><i></i></div>
+                </div>
+              </div>
+              <div class="pane" style="grid-column:1/-1;">
+                <b>팀 운영</b>
+                <small>활동 전/후 브리핑과 피드백으로 안전하게 운영합니다.</small>
+                <div class="bars"><div class="bar" style="--w:88%"><i></i></div></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="mini-cards">
+          <article class="card mini reveal">
+            <h4>MT</h4>
+            <p>필수는 아니지만, 추억을 위해 참여를 추천해요. 함께한 시간이 팀워크를 더 단단하게 만들어줍니다.</p>
+            <div class="tagrow"><span class="tag">추억</span><span class="tag">친목</span><span class="tag">팀워크</span></div>
+          </article>
+
+          <article class="card mini reveal">
+            <h4>로타링크</h4>
+            <p>선후배·구성원이 연결되는 자리. 경험과 노하우를 나누고 함께 성장합니다.</p>
+            <div class="tagrow"><span class="tag">네트워킹</span><span class="tag">교류</span><span class="tag">연대</span></div>
+          </article>
+
+          <article class="card mini reveal">
+            <h4>개총 · 종총</h4>
+            <p>한 학기의 시작과 마무리를 정리하는 정기총회. 운영 방향을 공유하고 활동을 기록합니다.</p>
+            <div class="tagrow"><span class="tag">운영</span><span class="tag">기록</span><span class="tag">공유</span></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="schedule">
+    <div class="container">
+      <p class="kicker reveal">연간일정</p>
+      <h2 class="reveal">한 해 흐름(예시)</h2>
+      <p class="lead reveal">학교 일정에 맞춰 조정될 수 있어요. 필요한 만큼 자유롭게 수정하세요.</p>
+
+      <div class="grid test-grid">
+        <article class="card quote reveal">
+          <p><b>학기 초</b> — 개총(개강총회) · OT · 팀 편성</p>
+          <div class="who"><div class="avatar" aria-hidden="true"></div><div><b>출발</b><small>운영 공유</small></div></div>
+        </article>
+        <article class="card quote reveal">
+          <p><b>학기 중</b> — 안심귀가 · 야간순찰 · 로타링크</p>
+          <div class="who"><div class="avatar" style="background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.12)),linear-gradient(135deg, rgba(34,197,94,.85), rgba(6,182,212,.65));" aria-hidden="true"></div><div><b>활동</b><small>현장 중심</small></div></div>
+        </article>
+        <article class="card quote reveal">
+          <p><b>학기 말</b> — 종총(종강총회) · 회고 · 다음 기수 준비</p>
+          <div class="who"><div class="avatar" style="background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.12)),linear-gradient(135deg, rgba(124,58,237,.85), rgba(245,158,11,.65));" aria-hidden="true"></div><div><b>마무리</b><small>기록/인수인계</small></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <p class="kicker reveal">FAQ</p>
+      <h2 class="reveal">지원 전에 자주 묻는 질문</h2>
+      <p class="lead reveal">모집/활동 관련 문구는 상황에 맞게 수정해 사용하세요.</p>
+
+      <div class="grid faq-grid">
+        <div class="faq reveal" aria-label="FAQ 항목">
+          <details>
+            <summary>
+              활동은 누구나 참여할 수 있나요?
+              <span class="chev" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 15.5a1 1 0 0 1-.7-.3l-5-5a1 1 0 1 1 1.4-1.4l4.3 4.3l4.3-4.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-.7.3Z"/></svg>
+              </span>
+            </summary>
+            <p>한림대학교 재학생이라면 누구나 지원할 수 있도록 안내하는 형태로 운영할 수 있어요. (실제 기준은 공지에 맞춰 수정)</p>
+          </details>
+
+          <details>
+            <summary>
+              안심귀가·야간순찰은 어떤 식으로 진행되나요?
+              <span class="chev" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 15.5a1 1 0 0 1-.7-.3l-5-5a1 1 0 1 1 1.4-1.4l4.3 4.3l4.3-4.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-.7.3Z"/></svg>
+              </span>
+            </summary>
+            <p>
+              안심귀가는 <b>아이와 손잡고 안전하게 집까지 데려다주는 동행</b> 활동입니다.<br/>
+              야간순찰은 <b>조끼를 착용</b>하고 <b>취약 지역을 중심으로 순찰</b>하며 안전을 살피는 활동입니다.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              MT는 필수인가요?
+              <span class="chev" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 15.5a1 1 0 0 1-.7-.3l-5-5a1 1 0 1 1 1.4-1.4l4.3 4.3l4.3-4.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-.7.3Z"/></svg>
+              </span>
+            </summary>
+            <p>필수는 아니지만, <b>추억을 위해 참여를 추천</b>해요. 함께한 시간이 팀워크를 더 단단하게 만들어줍니다.</p>
+          </details>
+
+          <details>
+            <summary>
+              어디로 문의하면 되나요?
+              <span class="chev" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 15.5a1 1 0 0 1-.7-.3l-5-5a1 1 0 1 1 1.4-1.4l4.3 4.3l4.3-4.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-.7.3Z"/></svg>
+              </span>
+            </summary>
+            <p>
+              아래 “지원/문의”에서 작성 후 <b>인스타 DM</b>으로 보내주세요.<br/>
+              로타랙트 인스타: <a id="faqInstaLink" href="https://www.instagram.com/hallym_rotaract/" target="_blank" rel="noreferrer" style="text-decoration:underline;">@hallym_rotaract</a>
+            </p>
+          </details>
+        </div>
+
+        <div class="card contact reveal" id="contact">
+          <h3 style="margin:0 0 6px 0; font-size:18px;">지원/문의</h3>
+          <p style="margin:0; color:var(--muted); font-size:14px; line-height:1.6;">
+            아래 내용을 작성하면 <b>문의 내용이 자동으로 복사</b>되고, 인스타 DM 창이 열립니다.
+            DM에 <b>붙여넣기만</b> 하면 끝!
+          </p>
+
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+            <span class="pill" style="box-shadow:none;">
+              <span class="dot" style="box-shadow:0 0 0 4px rgba(6,182,212,.14);"></span>
+              인스타: <b style="color:var(--text); margin-left:4px;">@hallym_rotaract</b>
+            </span>
+
+            <!-- ✅ 프로필 보기: 무조건 hallym_rotaract 프로필로 -->
+            <a class="btn btn-ghost" href="https://www.instagram.com/hallym_rotaract/" target="_blank" rel="noreferrer">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M14 3h-4a7 7 0 0 0-7 7v4a7 7 0 0 0 7 7h4a7 7 0 0 0 7-7v-4a7 7 0 0 0-7-7Zm5 11a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5v-4a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v4ZM12 8a4 4 0 1 0 0 8a4 4 0 0 0 0-8Zm0 6a2 2 0 1 1 0-4a2 2 0 0 1 0 4Zm5.25-6.5a.75.75 0 1 1-1.5 0a.75.75 0 0 1 1.5 0Z"/>
+              </svg>
+              프로필 보기
+            </a>
+          </div>
+
+          <form id="contactForm" novalidate>
+            <div class="field">
+              <label for="name">이름</label>
+              <input id="name" name="name" autocomplete="name" placeholder="홍길동" required minlength="2" />
+              <div class="error" id="errName">이름을 입력해주세요 (2자 이상).</div>
+            </div>
+
+            <div class="field">
+              <label for="phone">연락처 (선택)</label>
+              <input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="010-1234-5678" />
+            </div>
+
+            <div class="field">
+              <label for="message">내용</label>
+              <textarea id="message" name="message" placeholder="예) 로타랙트 지원 일정이 궁금합니다." required minlength="10"></textarea>
+              <div class="error" id="errMessage">내용을 입력해주세요 (10자 이상).</div>
+              <div class="helper">팁: <b>Ctrl/⌘ + Enter</b>로 빠르게 DM 이동할 수 있어요.</div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:14px;">
+              <button class="btn btn-primary" type="submit">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M2.3 11.3l18-8a1 1 0 0 1 1.4 1.4l-8 18a1 1 0 0 1-1.86-.12l-2.2-6.6l-6.6-2.2a1 1 0 0 1-.12-1.86ZM10.6 14.8l1.6 4.8l5.3-11.9l-11.9 5.3l4.8 1.6l4.9-4.9a1 1 0 1 1 1.4 1.4l-4.9 4.9Z"/>
+                </svg>
+                인스타 DM 보내기
+              </button>
+
+              <button class="btn btn-ghost" type="button" id="prefillBtn">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M4 4h10a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-1H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm12 5v8a2 2 0 0 1-2 2h-4v1h10V9h-4ZM4 6v12h10V6H4Z"/>
+                </svg>
+                데모 자동 입력
+              </button>
+            </div>
+
+            <div class="success" id="successBanner">
+              ✔️ 문의 내용이 복사됐어요. 인스타 DM 창에서 붙여넣기 해주세요!
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-row">
+        <div>
+          <div class="brand" style="gap:10px;">
+            <span class="logo" aria-hidden="true"></span>
+            <span>로타랙트</span>
+          </div>
+          <p style="margin:10px 0 0; max-width:58ch; line-height:1.7;">
+            한림대학교 중앙 봉사동아리 로타랙트. 함께 지키고, 함께 성장하는 봉사를 이어갑니다.
+          </p>
+          <p style="margin:10px 0 0;">© <span id="year"></span> 로타랙트. 모든 권리 보유.</p>
+        </div>
+
+        <div class="footer-links" aria-label="푸터 링크">
+          <a href="#about">소개</a>
+          <a href="#activities">주요활동</a>
+          <a href="#schedule">연간일정</a>
+          <a href="#faq">FAQ</a>
+          <a href="#top">맨 위로</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // =========================
+  // ✅ 인스타 설정 (고정)
+  // =========================
+  const INSTAGRAM_USERNAME = "hallym_rotaract";
+  const INSTAGRAM_PROFILE_URL = "https://www.instagram.com/hallym_rotaract/";
+  const INSTAGRAM_DM_URL = `https://ig.me/m/${encodeURIComponent(INSTAGRAM_USERNAME)}`;
+
+  // -------------------------
+  // Theme toggle
+  // -------------------------
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+
+  const getPreferredTheme = () => {
+    const saved = localStorage.getItem('rotaract-theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  };
+
+  const setTheme = (theme) => {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('rotaract-theme', theme);
+    if (theme === 'dark') {
+      themeIcon.innerHTML =
+        "<path fill='currentColor' d='M12 18a6 6 0 1 1 0-12a6 6 0 0 1 0 12Zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 18a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM3 11a1 1 0 0 1 1-1h1a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Zm18 0a1 1 0 0 1 1-1h1a1 1 0 1 1 0 2h-1a1 1 0 0 1-1-1ZM5.3 5.3a1 1 0 0 1 1.4 0l.7.7a1 1 0 1 1-1.4 1.4l-.7-.7a1 1 0 0 1 0-1.4Zm12.6 12.6a1 1 0 0 1 1.4 0l.7.7a1 1 0 1 1-1.4 1.4l-.7-.7a1 1 0 0 1 0-1.4ZM18.7 5.3a1 1 0 0 1 0 1.4l-.7.7a1 1 0 1 1-1.4-1.4l.7-.7a1 1 0 0 1 1.4 0ZM7.4 17.6a1 1 0 0 1 0 1.4l-.7.7a1 1 0 1 1-1.4-1.4l.7-.7a1 1 0 0 1 1.4 0Z'/>";
+    } else {
+      themeIcon.innerHTML =
+        "<path fill='currentColor' d='M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5Z'/>";
+    }
+  };
+
+  setTheme(getPreferredTheme());
+  themeToggle.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') || 'dark';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // -------------------------
+  // Mobile menu
+  // -------------------------
+  const hamburger = document.getElementById('hamburger');
+  const mobileDrawer = document.getElementById('mobileDrawer');
+
+  const setDrawer = (open) => {
+    if (open) {
+      mobileDrawer.hidden = false;
+      mobileDrawer.classList.add('open');
+    } else {
+      mobileDrawer.classList.remove('open');
+      mobileDrawer.hidden = true;
+    }
+    hamburger.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+    hamburger.title = open ? '닫기' : '메뉴';
+  };
+
+  hamburger.addEventListener('click', () => setDrawer(mobileDrawer.hidden));
+  mobileDrawer.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    setDrawer(false);
+  });
+
+  document.addEventListener('click', (e) => {
+    const isMobile = window.matchMedia('(max-width: 980px)').matches;
+    if (!isMobile) return;
+    if (mobileDrawer.hidden) return;
+    const inside = mobileDrawer.contains(e.target) || hamburger.contains(e.target);
+    if (!inside) setDrawer(false);
+  });
+
+  // -------------------------
+  // Reveal on scroll
+  // -------------------------
+  const reveals = Array.from(document.querySelectorAll('.reveal'));
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    }
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  // -------------------------
+  // Active nav highlight
+  // -------------------------
+  const navLinks = Array.from(document.querySelectorAll('#desktopNav a'));
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const setActive = (id) => {
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+  };
+  const sectionIO = new IntersectionObserver((entries) => {
+    const visible = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible?.target?.id) setActive(visible.target.id);
+  }, { rootMargin: "-30% 0px -60% 0px", threshold: [0.12, 0.2, 0.35] });
+  sections.forEach(s => sectionIO.observe(s));
+
+  // -------------------------
+  // FAQ: only one open
+  // -------------------------
+  const faqs = Array.from(document.querySelectorAll('#faq details'));
+  faqs.forEach(d => d.addEventListener('toggle', () => {
+    if (!d.open) return;
+    faqs.forEach(other => { if (other !== d) other.open = false; });
+  }));
+
+  // -------------------------
+  // Toast helper
+  // -------------------------
+  const toastEl = document.getElementById('toast');
+  let toastTimer = null;
+  const toast = (msg) => {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1800);
+  };
+
+  // -------------------------
+  // Contact -> Instagram DM
+  // -------------------------
+  const form = document.getElementById('contactForm');
+  const successBanner = document.getElementById('successBanner');
+
+  const nameEl = document.getElementById('name');
+  const phoneEl = document.getElementById('phone');
+  const msgEl = document.getElementById('message');
+
+  const errName = document.getElementById('errName');
+  const errMessage = document.getElementById('errMessage');
+
+  const showErr = (el, errEl, show) => {
+    errEl.style.display = show ? 'block' : 'none';
+    el.style.borderColor = show ? 'rgba(239,68,68,.55)' : '';
+    el.style.boxShadow = show ? '0 0 0 4px rgba(239,68,68,.12)' : '';
+  };
+
+  const validate = () => {
+    const nOk = nameEl.value.trim().length >= 2;
+    const mOk = msgEl.value.trim().length >= 10;
+    showErr(nameEl, errName, !nOk);
+    showErr(msgEl, errMessage, !mOk);
+    return nOk && mOk;
+  };
+
+  const buildDMText = () => {
+    const name = nameEl.value.trim();
+    const phone = phoneEl.value.trim();
+    const message = msgEl.value.trim();
+    return [
+      `[로타랙트 문의]`,
+      `이름: ${name}`,
+      phone ? `연락처: ${phone}` : `연락처: (미입력)`,
+      ``,
+      `내용:`,
+      message
+    ].join('\n');
+  };
+
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (_) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', 'true');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        ta.style.top = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch (_) {
+        return false;
+      }
+    }
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    successBanner.style.display = 'none';
+
+    if (!validate()) return;
+
+    const text = buildDMText();
+    const copied = await copyToClipboard(text);
+
+    successBanner.style.display = 'block';
+    toast(copied ? '✔️ 내용 복사 완료! DM으로 이동합니다.' : '❗복사 실패. 내용을 직접 복사해 주세요.');
+    window.open(INSTAGRAM_DM_URL, '_blank', 'noopener,noreferrer');
+  });
+
+  msgEl.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') form.requestSubmit();
+  });
+
+  document.getElementById('prefillBtn').addEventListener('click', () => {
+    nameEl.value = "홍길동";
+    phoneEl.value = "010-1234-5678";
+    msgEl.value = "안녕하세요! 로타랙트 지원 일정과 활동 참여 방법이 궁금합니다. 안내 부탁드립니다.";
+    successBanner.style.display = 'none';
+    validate();
+    msgEl.focus();
+    toast('데모 입력 완료!');
+  });
+
+  document.getElementById('year').textContent = String(new Date().getFullYear());
+</script>
+</body>
+</html>
